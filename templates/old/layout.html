@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width", initial-scale="1",>
+    <title>{% block title %}{% endblock %}</title>
+
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/fonts.css' %}" type="text/css">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  </head>
+
+  <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#cerftech-nav">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">HR Data</a>
+            </div>
+            <div class="collapse navbar-collapse" id="cerftech-nav">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#"><i class="fa fa-home"></i> 首页 <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#"><i class="fa fa-bookmark"></i> 政策法规</a></li>
+                    <li><a href="#"><i class="fa fa-database"></i> 数据服务</a></li>
+                    <li><a href="#"><i class="fa fa-child"></i> 关于我</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  {% if user.is_authenticated %}
+                  <p class="navbar-text">你好！ {{ username }} | <a href="/logout/">退出</a></p>
+                  {% else %}
+                  <button type="button" class="btn btn-default navbar-btn" data-toggle="modal" data-target="#login-form">登录</button>
+                  {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer>
+      <div class="footerdetatil">
+        <p>Cerf Tech is created by Lorgan Sherwood. All documents, README & Cerf is under <a href="https://github.com/LorgSher/cerf/blob/master/README.md">MIT</a> Licenses.</p>
+      </div>
+      <div class="copyright">
+        <p>Copyright 2015 by ONO Studio. All Rights Reserved</p>
+      </div>
+    </footer>
+
+    <!-- Modal Login -->
+    <div class="modal fade" id="login-form" role="dialog" tabindex="-1" aria-hidden="true" aria-labelledby="LoginLabel">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4>登录系统</h4>
+          </div>
+          <div class="modal-body">
+            <form class="form-horizontal" method="post" id="login">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="{{ loginform.username.id_for_label }}" class="col-sm-2 control-label">用户名</label>
+                <div class="col-sm-9">
+                  {{ loginform.username }}
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="{{ loginform.password.id_for_label }}" class="col-sm-2 control-label">密码</label>
+                <div class="col-sm-9">
+                  {{ loginform.password }}
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-9">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox"> 记住我
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-blue" form="login">登 录</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
